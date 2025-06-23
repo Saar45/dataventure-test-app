@@ -3,19 +3,35 @@
     <ion-card-title>{{ user ? 'Éditer' : 'Ajouter' }} un utilisateur</ion-card-title>
   </ion-card-header>
   <ion-card-content>
-    <ion-item>
-      <ion-label position="floating">Nom</ion-label>
-      <ion-input [(ngModel)]="name"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Email</ion-label>
-      <ion-input [(ngModel)]="email"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Téléphone</ion-label>
-      <ion-input [(ngModel)]="phone"></ion-input>
-    </ion-item>
-    <ion-button expand="block" (click)="submit()">{{ user ? 'Mettre à jour' : 'Ajouter' }}</ion-button>
-    <ion-button expand="block" color="medium" (click)="cancel.emit()">Annuler</ion-button>
+    <form [formGroup]="form">
+      <ion-item>
+        <ion-label position="floating">Nom</ion-label>
+        <ion-input formControlName="name"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="form.get('name')?.touched && form.get('name')?.invalid">
+        <small>Le nom est requis.</small>
+      </ion-text>
+
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input formControlName="email"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="form.get('email')?.touched && form.get('email')?.errors">
+        <small *ngIf="form.get('email')?.errors?.['required']">L'email est requis.</small>
+        <small *ngIf="form.get('email')?.errors?.['email']">Format d'email invalide.</small>
+      </ion-text>
+
+      <ion-item>
+        <ion-label position="floating">Téléphone</ion-label>
+        <ion-input formControlName="phone"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="form.get('phone')?.touched && form.get('phone')?.errors">
+        <small *ngIf="form.get('phone')?.errors?.['required']">Le téléphone est requis.</small>
+        <small *ngIf="form.get('phone')?.errors?.['pattern']">Le téléphone doit comporter exactement 10 chiffres.</small>
+      </ion-text>
+
+      <ion-button expand="block" (click)="submit()" [disabled]="form.invalid">{{ user ? 'Mettre à jour' : 'Ajouter' }}</ion-button>
+      <ion-button expand="block" color="medium" (click)="cancel.emit()">Annuler</ion-button>
+    </form>
   </ion-card-content>
 </ion-card>

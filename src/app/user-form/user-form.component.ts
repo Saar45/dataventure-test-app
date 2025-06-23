@@ -1,8 +1,20 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { User } from '../models/user.model';
-//import { IonCardContent, IonCardTitle, IonLabel, IonCardHeader } from "@ionic/angular/standalone";
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  FormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 @Component({
@@ -10,26 +22,49 @@ import { IonicModule } from '@ionic/angular';
   templateUrl: './user-form.component.html',
   standalone: true,
   imports: [IonicModule, FormsModule, CommonModule, ReactiveFormsModule],
-  styleUrls: ['./user-form.component.scss']
+  styleUrls: ['./user-form.component.scss'],
 })
-export class UserFormComponent {
+export class UserFormComponent implements OnChanges {
   @Input() user: User | null = null;
   @Output() submitForm = new EventEmitter<Partial<User>>();
   @Output() cancel = new EventEmitter<void>();
 
-  name = '';
-  email = '';
-  phone = '';
+  // Déclaration du groupe de formulaire réactif
 
-  ngOnChanges() {
-    this.name = this.user?.name || '';
-    this.email = this.user?.email || '';
-    this.phone = this.user?.phone || '';
+  form: FormGroup;
+
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      // Ajout d'un petit regex pour le phone number
+      phone: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^\d{10}$/)
+        ]
+      ],
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['user']) {
+      this.form.patchValue({
+        name: this.user?.name || '',
+        email: this.user?.email || '',
+        phone: this.user?.phone || '',
+      });
+      // Marquer le formulaire comme "pristine" pour éviter les erreurs de validation
+      this.form.markAsPristine();
+    }
   }
 
   submit() {
-    if (this.name && this.email && this.phone) {
-      this.submitForm.emit({ name: this.name, email: this.email, phone: this.phone });
+    if (this.form.valid) {
+      this.submitForm.emit(this.form.value);
+    } else {
+      this.form.markAllAsTouched();
     }
   }
 }
