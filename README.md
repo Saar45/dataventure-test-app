@@ -111,6 +111,30 @@ Avant de commencer, assurez-vous d'avoir installé les outils suivants sur votre
 
    L'application sera accessible sur `http://localhost:[default_port]/`.
 
+---
+
+**Remarques complémentaires pour un bon lancement du projet :**
+
+- **Vérifiez la version de Node.js** : Utilisez `node -v` pour vérifier que vous avez une version compatible (18.x ou supérieure).
+- **Vérifiez la version d'Angular CLI et d'Ionic CLI** :  
+  - `ng version`  
+  - `ionic --version`
+- **Utilisation de `ionic serve`** :  
+  La commande recommandée pour lancer un projet Ionic est `ionic serve` (et non `npm start`), car elle gère mieux les spécificités Ionic.
+- **API** :  
+  L'API utilisée doit être accessible publiquement. Si vous rencontrez des erreurs réseau, vérifiez la connectivité ou l'état de l'API.
+- **Droits d'accès** :  
+  Assurez-vous d'avoir les droits nécessaires pour installer des paquets npm globalement (`sudo` peut être requis sur certains systèmes).
+- **Dépendances** :  
+  Si vous rencontrez des problèmes lors de l'installation (`npm install`), essayez de supprimer le dossier `node_modules` et le fichier `package-lock.json`, puis relancez l'installation.
+- **Navigateur** :  
+  Utilisez un navigateur moderne (Chrome, Edge, Firefox) pour une meilleure compatibilité avec Ionic.
+
+---
+
+En suivant ces étapes et recommandations, le projet devrait se lancer sans difficulté.  
+Pour toute question ou problème, consultez la documentation officielle d'[Ionic](https://ionicframework.com/docs) et d'[Angular](https://angular.io/docs).
+
 ## Utilisation
 
 - Sur la page d'accueil, consultez la liste des utilisateurs.
