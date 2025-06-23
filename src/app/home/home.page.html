@@ -1,20 +1,32 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      App - CRUD Utilisateurs
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <div *ngIf="!showForm">
+    <ion-button expand="block" (click)="addUser()">Ajouter un utilisateur</ion-button>
+    <ion-list>
+      <ion-item *ngFor="let user of users">
+        <ion-label>
+          <h2>{{user.name}}</h2>
+          <p>{{user.email}}</p>
+          <p>{{user.phone}}</p>
+          <p>Créé le : {{user.created_at | dateFr}}</p>
+        </ion-label>
+        <ion-button fill="clear" slot="end" color="primary" (click)="editUser(user)">Éditer</ion-button>
+        <ion-button fill="clear" slot="end" color="danger" (click)="deleteUser(user)">Supprimer</ion-button>
+      </ion-item>
+    </ion-list>
+  </div>
+  <div *ngIf="showForm">
+    <app-user-form
+      [user]="selectedUser"
+      (submitForm)="onFormSubmit($event)"
+      (cancel)="cancelForm()"
+    ></app-user-form>
   </div>
 </ion-content>

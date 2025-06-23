@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
+import { UserFormComponent } from '../user-form/user-form.component';
+import { DateFrPipe } from './date-fr.pipe';
 
 import { HomePageRoutingModule } from './home-routing.module';
 
@@ -12,8 +14,10 @@ import { HomePageRoutingModule } from './home-routing.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule
-  ],
+    HomePageRoutingModule,
+    UserFormComponent,
+    DateFrPipe
+],
   declarations: [HomePage]
 })
 export class HomePageModule {}
