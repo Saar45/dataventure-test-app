@@ -1,0 +1,7 @@
+{
+  "name": "dataventureTest",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
